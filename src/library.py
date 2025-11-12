@@ -1,4 +1,4 @@
-# src/library.py
+
 
 from datetime import datetime, timedelta
 from src.book import Book
@@ -9,9 +9,9 @@ class Library:
         self.books = {}      # map isbn -> Book
         self.borrowers = {}  # map membership_id -> Borrower
 
-    # ---------------- Books ----------------
+   
     def add_book(self, book: Book):
-        """Add a Book object. If ISBN exists, increase quantity."""
+      
         isbn = str(book.isbn)
         if isbn in self.books:
             self.books[isbn].quantity += book.quantity
@@ -38,7 +38,7 @@ class Library:
         return False, "Book not found."
 
     def search_books(self, query=None, field='title'):
-        """Search by title/author/genre/isbn (case-insensitive). Return list of Book objects."""
+        
         results = []
         if not query:
             return list(self.books.values())
@@ -54,7 +54,6 @@ class Library:
                 results.append(book)
         return results
 
-    # ---------------- Borrowers ----------------
     def add_borrower(self, borrower: Borrower):
         mid = str(borrower.membership_id)
         if mid in self.borrowers:
@@ -77,7 +76,7 @@ class Library:
             return True, "Borrower removed."
         return False, "Borrower not found."
 
-    # ---------------- Borrow / Return ----------------
+  
     def borrow_book(self, membership_id, isbn, borrow_days=14):
         mid = str(membership_id)
         isbn = str(isbn)
@@ -94,7 +93,7 @@ class Library:
         if not book.check_availability():
             return False, "Book is out of stock."
 
-        # Borrow operation
+        
         ok, msg = book.borrow_copy()
         if not ok:
             return False, msg
@@ -113,18 +112,18 @@ class Library:
             return False, "Book not found in library records."
 
         borrower = self.borrowers[mid]
-        # Remove from borrower record first
+     
         removed, msg = borrower.remove_borrowed(isbn)
         if not removed:
             return False, "This borrower did not borrow that book."
-        # Return copy to stock
+      
         book = self.books[isbn]
         book.return_copy()
         return True, "Book returned successfully."
 
-    # ---------------- Overdue and status ----------------
+   
     def list_overdue(self):
-        """Return list of tuples (Borrower, isbn, due_date, days_overdue)"""
+       
         now = datetime.now()
         overdue = []
         for borrower in self.borrowers.values():
@@ -141,7 +140,7 @@ class Library:
         borrowed = self.borrowers[mid].list_borrowed()
         return True, borrowed
 
-    # ---------------- Utility ----------------
+   
     def list_all_books(self):
         return list(self.books.values())
 
