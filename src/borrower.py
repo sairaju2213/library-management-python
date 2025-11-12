@@ -1,11 +1,8 @@
-# src/borrower.py
+
 
 class Borrower:
     def __init__(self, name, contact, membership_id):
-        """
-        membership_id: unique identifier (string or int)
-        borrowed_books: list of tuples (isbn, due_date) or (Book, due_date)
-        """
+        
         self.name = name
         self.contact = contact
         self.membership_id = str(membership_id)
@@ -28,7 +25,7 @@ class Borrower:
         return False, "Book not found in borrower's records."
 
     def list_borrowed(self):
-        """Return shallow copy for printing or inspection."""
+        
         return list(self.borrowed_books)
 
     def __str__(self):
